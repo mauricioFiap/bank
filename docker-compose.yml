@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  api-autenticacao:
+    build:
+      context: ./autenticacao
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb-api-autenticacao:27017/autenticacao
+    depends_on:
+      - mongodb-api-autenticacao
+    networks:
+      - my_network
+
+  mongodb-api-autenticacao:
+    image: mongo:latest
+    container_name: mongodb-api-autenticacao
+    ports:
+      - "27017:27017"
+    environment:
+        MONGO_INITDB_DATABASE: autenticacao
+    networks:
+      - my_network
+
+  api-cliente:
+    build:
+      context: ./registrocliente
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb-api-cliente:27017/registrocliente
+    depends_on:
+        - mongodb-api-cliente
+    networks:
+      - my_network
+
+  mongodb-api-cliente:
+    image: mongo:latest
+    container_name: mongodb-api-cliente
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_DATABASE: registrocliente
+    networks:
+      - my_network
+
+  api-registropagamento:
+    build:
+      context: ./registropagamento
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb-api-registropagamento:27017/registropagamento
+    depends_on:
+      - mongodb-api-registropagamento
+    networks:
+      - my_network
+
+  mongodb-api-registropagamento:
+    image: mongo:latest
+    container_name: mongodb-api-registropagamento
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_DATABASE: registropagamento
+    networks:
+      - my_network
+
+
+  api-geracartao:
+    build:
+      context: ./geracartao
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb-api-geracartao:27017/geracartao
+    depends_on:
+      - mongodb-api-geracartao
+    networks:
+      - my_network
+
+  mongodb-api-geracartao:
+    image: mongo:latest
+    container_name: mongodb-api-geracartao
+    ports:
+      - "27020:27017"
+    environment:
+      MONGO_INITDB_DATABASE: geracartao
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+
