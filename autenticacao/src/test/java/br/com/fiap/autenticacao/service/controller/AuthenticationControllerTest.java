@@ -3,6 +3,7 @@ package br.com.fiap.autenticacao.service.controller;
 import br.com.fiap.autenticacao.controller.AuthenticationController;
 import br.com.fiap.autenticacao.entity.User;
 import br.com.fiap.autenticacao.model.AuthenticationRequest;
+import br.com.fiap.autenticacao.model.TokenResponse;
 import br.com.fiap.autenticacao.service.UserServiceImpl;
 import br.com.fiap.autenticacao.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,8 @@ class AuthenticationControllerTest {
         ResponseEntity<?> response = authenticationController.createAuthenticationToken(request);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals("jwtToken", response.getBody());
+        TokenResponse responseBody = new TokenResponse("jwtToken");
+        assertEquals(responseBody, response.getBody());
     }
 
     @Test
